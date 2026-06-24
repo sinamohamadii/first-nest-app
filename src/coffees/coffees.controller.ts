@@ -3,15 +3,17 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
-  HttpStatus,
+  // HttpCode,
+  // HttpStatus,
   Param,
   Patch,
   Post,
-  Query,
+  //  Query,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
-import { type Coffees } from './entities/coffees.entity';
+// import { type Coffees } from './entities/coffees.entity';
+import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 
 @Controller('Coffees')
 export class CoffeesController {
@@ -40,8 +42,8 @@ export class CoffeesController {
 
   // Accessing the body payload
   @Post()
-  create(@Body() body: Coffees) {
-    return this.CoffeesService.create(body);
+  create(@Body() CreateCoffeeDto: CreateCoffeeDto) {
+    return this.CoffeesService.create(CreateCoffeeDto);
   }
 
   // Nested Route
@@ -53,8 +55,8 @@ export class CoffeesController {
   // }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.CoffeesService.update(id, body);
+  update(@Param('id') id: string, @Body() UpdateCoffeeDto: UpdateCoffeeDto) {
+    return this.CoffeesService.update(id, UpdateCoffeeDto);
   }
 
   @Delete(':id')
