@@ -18,6 +18,9 @@ export class Coffees {
   @Column()
   brand!: string;
 
+  @Column({ default: 0 })
+  recommendations!: number;
+
   // create a many-to-many relationship between Coffees and Flavor entities. each coffee can have multiple flavors, and each flavor can be associated with multiple coffees.
   @JoinTable()
   // Cascade; When I save this entity, also save the related entities if needed
