@@ -3,10 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { Coffees } from './entities/coffees.entity';
+import { Flavor } from './entities/flavor.entity/flavor.entity';
 
 @Module({
   // Import the Coffees entity into the ORM module is required to register the entity
-  imports: [TypeOrmModule.forFeature([Coffees])],
+  imports: [TypeOrmModule.forFeature([Coffees, Flavor])],
   controllers: [CoffeesController],
   providers: [CoffeesService],
 })
