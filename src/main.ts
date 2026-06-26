@@ -12,8 +12,15 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       // automatically transform payloads to be objects typed according to their DTO classes
       transform: true,
+      // enables implicit type conversion for primitive types (e.g., string to number)
+      // meaning that we no longer need to use @Type(() => Number) to explicitly define types
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+
+// void tells that i know its a promise and i dont care about the return value otherwise we get Eslint erroe
+void bootstrap();
