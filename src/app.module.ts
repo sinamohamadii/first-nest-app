@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
+// import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -38,6 +39,13 @@ import appConfig from './config/app.config';
     DatabaseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // Adding validation pipe globally:
+    // {
+    //   provide: APP_PIPE,
+    //   useClass: VlaidationPiple,
+    // },
+  ],
 })
 export class AppModule {}

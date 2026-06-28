@@ -10,6 +10,9 @@ import {
   Post,
   Query,
   //  Query,
+  UsePipes,
+  ValidationPipe,
+  // UseGaurd, ...
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 // import { type Coffees } from './entities/coffees.entity';
@@ -17,6 +20,8 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 
+// A controller pipe binding:
+//@UsePipes(ValidationPipe)
 @Controller('Coffees')
 export class CoffeesController {
   // we need to inject the CoffeesService into the controller so that we can use its methods to handle requests.
@@ -24,6 +29,8 @@ export class CoffeesController {
   constructor(private readonly CoffeesService: CoffeesService) {}
 
   // The @Get() decorator is used to define a route handler for the HTTP GET method. When a GET request is made to the /Coffees endpoint, the find() method will be called and its return value will be sent back to the client as the response.
+  // A method-level pipe binding:
+  // @UsePipes(ValidationPipe)
   @Get()
   find(@Query() paginationQuery: PaginationQueryDto) {
     return this.CoffeesService.findAll(paginationQuery);
@@ -57,7 +64,11 @@ export class CoffeesController {
   // }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() UpdateCoffeeDto: UpdateCoffeeDto) {
+  update(
+    @Param('id') id: string,
+    @Body(/* We can use "ValidationPipe" to have a pipe bound to a parameter */)
+    UpdateCoffeeDto: UpdateCoffeeDto,
+  ) {
     return this.CoffeesService.update(id, UpdateCoffeeDto);
   }
 
