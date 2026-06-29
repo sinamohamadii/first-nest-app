@@ -9,9 +9,10 @@ import {
   Patch,
   Post,
   Query,
+  // SetMetadata,
   //  Query,
-  UsePipes,
-  ValidationPipe,
+  // UsePipes,
+  // ValidationPipe,
   // UseGaurd, ...
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
@@ -19,6 +20,7 @@ import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
+import { Public } from 'src/common/decorators/public.decorator';
 
 // A controller pipe binding:
 //@UsePipes(ValidationPipe)
@@ -31,6 +33,8 @@ export class CoffeesController {
   // The @Get() decorator is used to define a route handler for the HTTP GET method. When a GET request is made to the /Coffees endpoint, the find() method will be called and its return value will be sent back to the client as the response.
   // A method-level pipe binding:
   // @UsePipes(ValidationPipe)
+  // @SetMetadata('isPublic', true) // This is a custom decorator that we can use to mark this route as public. We can then use this metadata in our guards to allow or deny access to this route.
+  @Public()
   @Get()
   find(@Query() paginationQuery: PaginationQueryDto) {
     return this.CoffeesService.findAll(paginationQuery);
