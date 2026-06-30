@@ -21,6 +21,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
+import { ParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
 
 // A controller pipe binding:
 //@UsePipes(ValidationPipe)
@@ -49,7 +50,7 @@ export class CoffeesController {
 
   // Param decorator is used to extract the value of the id parameter from the URL path. The id parameter is defined in the route path as :id, which means that it can be any value. The value of the id parameter is then passed to the findOne method as an argument.
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseIntPipe) id: string) {
     return this.CoffeesService.findOne(id);
   }
 
