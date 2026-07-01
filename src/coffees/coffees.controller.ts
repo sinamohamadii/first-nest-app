@@ -22,9 +22,11 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto/update-coffee.dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
 // A controller pipe binding:
 //@UsePipes(ValidationPipe)
+@ApiTags('coffees')
 @Controller('Coffees')
 export class CoffeesController {
   // we need to inject the CoffeesService into the controller so that we can use its methods to handle requests.
@@ -35,6 +37,7 @@ export class CoffeesController {
   // A method-level pipe binding:
   // @UsePipes(ValidationPipe)
   // @SetMetadata('isPublic', true) // This is a custom decorator that we can use to mark this route as public. We can then use this metadata in our guards to allow or deny access to this route.
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get()
   find(@Query() paginationQuery: PaginationQueryDto) {

@@ -4,9 +4,12 @@ import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout/timeout.interceptor';
+import { DocumentBuilder } from 'node_modules/@nestjs/swagger/dist/document-builder';
+import { SwaggerModule } from 'node_modules/@nestjs/swagger/dist/swagger-module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(
     new ValidationPipe({
       // filters any properties that are not in the DTO
@@ -22,11 +25,24 @@ async function bootstrap() {
       },
     }),
   );
+
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(
     new WrapResponseInterceptor(),
     new TimeoutInterceptor(),
   );
+
+  // Swagger configuration
+  const options = new DocumentBuilder()
+    .setTitle('Iluvcoffee API')
+    .setDescription('The Iluvcoffee API description')
+    .setVersion('1.0')
+    .addTag('iluvcoffee')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(process.env.PORT ?? 3000);
 }
 
